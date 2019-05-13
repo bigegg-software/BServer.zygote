@@ -6,16 +6,53 @@ let dataBaseCreate = DataBaseController.prototype.create;
 DataBaseController.prototype.create = function (className, object, {
 	acl
 } = {}) {
-	object = _handleClassPower(className, object);
-	return dataBaseCreate.bind(this)(className, object, acl)
+	return   _handleClassPower.bind(this)(className, object, acl).then(object =>{
+		return dataBaseCreate.bind(this)(className, object, acl)
+	});
 };
 
+async function _handleClassPower(className, object, acl) {
 
-function _handleClassPower(className, object) {
+	let userId  = acl && acl[1] ? acl[1] : "*";
 	if (!object.ACL) {
+		let config = await _getConfig() || {};
+		let classLevel = config[`${className}_class_level`];
+		if(!isNaN(classLevel)){
+			let acl = _createACLByLevel(classLevel, userId)
+			object.ACL = acl
+		}
 	}
 	return object
 }
+
+function _createACLByLevel(classLevel, userId){
+	let postACL = new Parse.ACL();
+	switch (classLevel) {
+		case 0 : {
+			postACL.setWriteAccess("*", true);
+			postACL.setReadAccess("*", true);
+			break
+		}
+		case 1 : {
+			postACL.setWriteAccess(userId, true);
+			postACL.setReadAccess( "*", true);
+			break
+		}
+		case 2 : {
+			postACL.setWriteAccess(userId, true);
+			postACL.setReadAccess( userId, true);
+			break
+		}
+		case 3 : {
+			postACL.setWriteAccess("*", false);
+			postACL.setReadAccess( "*", false);
+			break
+		}
+	}
+	return postACL.toJSON()
+}
+
+
 
 function _initClassLevel(className, classLevelPremissions) {
 
@@ -45,3 +82,30 @@ _initClassLevel("_User", {
 }).then(data => {
 }, err => console.log);
 
+
+
+
+function _getConfig(){
+	return Parse.Config.get().then(config => {
+		return config.attributes
+	});
+}
+
+async function setClassDefaultLevel(className, level){
+	let config = _getConfig();
+
+	let classConfig = {};
+	classConfig[`${className}_class_level`] =  level;
+	const result =
+		Object.keys(classConfig).length > 0
+			? await Parse.Config.save(
+			{ ...config, ...classConfig, updated: Date.now() }
+			)
+			: config;
+
+	return result.attributes;
+}
+
+module.exports = {
+	setClassDefaultLevel, 
+};
