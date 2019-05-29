@@ -5,9 +5,9 @@ let dataBaseCreate = DataBaseController.prototype.create;
 
 DataBaseController.prototype.create = function (className, object, {
 	acl
-} = {}) {
-	return   _handleClassPower.bind(this)(className, object, acl).then(object =>{
-		return dataBaseCreate.bind(this)(className, object, acl)
+} = {}, validateOnly = false) {
+	return   _handleClassPower.bind(this)(className, object, acl,validateOnly).then(object =>{
+		return dataBaseCreate.bind(this)(className, object, acl, validateOnly)
 	});
 };
 
@@ -24,6 +24,7 @@ async function _handleClassPower(className, object, acl) {
 	}
 	return object
 }
+
 
 function _createACLByLevel(classLevel, userId){
 	let postACL = new Parse.ACL();
@@ -106,6 +107,4 @@ async function setClassDefaultLevel(className, level){
 	return result.attributes;
 }
 
-module.exports = {
-	setClassDefaultLevel, 
-};
+Parse.Object.setClassDefaultLevel =  setClassDefaultLevel;
