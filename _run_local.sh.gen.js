@@ -14,18 +14,18 @@ export PARSE_PUBLIC_SERVER_URL="http://127.0.0.1:1337/api/1"
 
 export ANYPROXY_PARSE_SERVER_URL="http://127.0.0.1:1337/api/1"
 
-export S3_BUCKET="fxp-1258505122"
-export S3_BASEURL="https://fxp-1258505122.cos.ap-chengdu.myqcloud.com"
-export S3_REGION="ap-chengdu"
-export S3_ACCESS_KEY="AKID0bJF6kGVWtodAgvd6KpuseDb4rSxGkBT"
-export S3_SECRET_KEY="KZnaGoRWS5FCzxkJk0CCxhAPZpyvhaf9"
-export S3_ENDPOINT="https://cos.ap-chengdu.myqcloud.com"
+export S3_BUCKET="${ctx.bucket}"
+export S3_BASEURL="${ctx.s3BaseUrl}"
+export S3_REGION="${ctx.s3Region}"
+export S3_ACCESS_KEY="${ctx.s3Ak}"
+export S3_SECRET_KEY="${ctx.s3Sk}"
+export S3_ENDPOINT="${ctx.s3Endpoint}"
 export S3_ASSUME_BUCKET_IS_PUBLIC_READ=true
 
-export COS_SECRET_ID="AKID0bJF6kGVWtodAgvd6KpuseDb4rSxGkBT"
-export COS_SECRET_KEY="KZnaGoRWS5FCzxkJk0CCxhAPZpyvhaf9"
-export COS_BUCKET="fxp-1258505122"
-export COS_REGION="ap-chengdu"
+export COS_SECRET_ID="${ctx.s3Ak}"
+export COS_SECRET_KEY="${ctx.s3Sk}"
+export COS_BUCKET="${ctx.bucket}"
+export COS_REGION="${ctx.s3Region}"
 
 export PARSE_RUN_MODE='dev'
 
