@@ -12,7 +12,7 @@ module.exports = ctx =>
     "aws-sdk": "^2.449.0",
     "express": "^4.16.4",
     "parse-server": "^3.3.0",
-    "node-fetch": "^2.5.0",
+    "node-fetch": "^2.5.0"
   }
 }
 `
