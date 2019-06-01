@@ -14,14 +14,14 @@ if (!databaseUri) {
 let s3options = undefined;
 if (process.env.S3_BUCKET) {
   s3options = {
-    bucket: process.env.S3_BUCKET, //  'bedev-1258659826'
-    baseUrl: process.env.S3_BASEURL, //  'https://bedev-1258659826.cos.ap-beijing.myqcloud.com'
-    region: process.env.S3_REGION, //  'ap-beijing'
+    bucket: process.env.S3_BUCKET,
+    baseUrl: process.env.S3_BASEURL, 
+    region: process.env.S3_REGION, 
     directAccess: true,
     s3overrides: {
-      accessKeyId: process.env.S3_ACCESS_KEY, //  'AKIDGK84oL7jOt98wX841nQqBB1d0CB0p3HL'
-      secretAccessKey: process.env.S3_SECRET_KEY, // 'FIn2HMFl8TijIelhRvCD2e5MRP9h04Wm'
-      endpoint: new AWS.Endpoint(process.env.S3_ENDPOINT) //  'https://cos.ap-beijing.myqcloud.com'
+      accessKeyId: process.env.S3_ACCESS_KEY, 
+      secretAccessKey: process.env.S3_SECRET_KEY, 
+      endpoint: new AWS.Endpoint(process.env.S3_ENDPOINT) 
     }
   };
 }
